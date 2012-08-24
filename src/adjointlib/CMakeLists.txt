@@ -21,8 +21,11 @@ include_directories( "${CMAKE_BINARY_DIR}/include" )
 # build the library and ptx files
 add_library( adjointlib SHARED
     ${ptx_files}
-    Core/Adjoint.hpp
-    Core/Adjoint.cpp
+    core/Adjoint.hpp
+    core/Adjoint.cpp
+    core/Mesh.cpp
+    core/Mesh.hpp
+    core/Utility.hpp
     )
 
 # Link against optix

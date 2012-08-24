@@ -3,7 +3,13 @@
 // License, etc
 // 
 
+#ifndef ADJOINT_CORE_ADJOINT_HPP_
+#define ADJOINT_CORE_ADJOINT_HPP_
+
+
+
 #include <optixu/optixpp_namespace.h>
+#include <core/Utility.hpp>
 
 
 namespace adjoint
@@ -47,17 +53,6 @@ private:
 
 
 
-class Contextualized
-{
-public:
-    Contextualized( adjoint::Context* context );
-
-protected:
-    adjoint::Context* m_context;
-};
-
-
-
 class Camera : public Contextualized
 {
 public:
@@ -91,11 +86,13 @@ class Environment : public Contextualized
 {
 public:
     virtual ~Environment();
+
     virtual optix::Program getClosestHit() const = 0;
     virtual optix::Program getIntersectionProgram() const = 0;
 };
 
 
-
-
 } // end namespace adjoint
+
+
+#endif // ADJOINT_CORE_ADJOINT_HPP_
