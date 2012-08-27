@@ -23,8 +23,10 @@ add_library( adjointlib SHARED
     ${ptx_files}
     core/Adjoint.hpp
     core/Adjoint.cpp
-    core/Mesh.cpp
-    core/Mesh.hpp
+    core/Sphere.cpp
+    core/Sphere.hpp
+    core/PinholeCamera.cpp
+    core/PinholeCamera.hpp
     core/Utility.hpp
     )
 

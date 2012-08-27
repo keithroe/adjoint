@@ -23,6 +23,12 @@ protected:
 };
 
 
+inline Contextualized::Contextualized( adjoint::Context* context )
+    : m_context( context )
+{
+}
+
+
 } // namespace adjoint
 
 
