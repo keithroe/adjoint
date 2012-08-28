@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include <core/Adjoint.hpp>
+#include <Adjoint.hpp>
 
 using namespace adjoint;
 

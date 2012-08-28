@@ -1,6 +1,6 @@
 
 
-#include <core/Sphere.hpp>
+#include <Sphere.hpp>
 
 using namespace adjoint;
 

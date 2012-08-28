@@ -7,8 +7,8 @@
 #include <optixu/optixpp_namespace.h>
 #include <optixu/optixu_math_namespace.h>
 
-#include <core/Adjoint.hpp>
-#include <core/Utility.hpp>
+#include <Adjoint.hpp>
+#include <Utility.hpp>
 
 namespace adjoint
 {

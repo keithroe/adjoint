@@ -1,7 +1,7 @@
 
 
 #include <iostream>
-#include <Core/Adjoint.hpp>
+#include <Adjoint.hpp>
 
 int main( int argc, char** argv )
 {

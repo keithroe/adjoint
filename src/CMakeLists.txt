@@ -15,7 +15,7 @@ find_package( CUDA 4.2 REQUIRED )
 
 # Add the path to the OptiX headers to our include paths.
 include_directories(
-    "${CMAKE_SOURCE_DIR}/src/adjointlib" 
+    "${CMAKE_SOURCE_DIR}/src/adjoint" 
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CUDA_INCLUDE_DIRS}" 
     "${OPENEXR_INCLUDE_PATHS}"
@@ -25,6 +25,6 @@ include_directories(
 # Tell clang_complete about our include paths
 #configure_file( "${CMAKE_CURRENT_SOURCE_DIR}/clang_complete.in"  "${CMAKE_CURRENT_SOURCE_DIR}/.clang_complete" )
 
-add_subdirectory( adjointlib )
 add_subdirectory( adjoint )
+add_subdirectory( standalone )
 
