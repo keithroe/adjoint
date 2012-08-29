@@ -26,10 +26,11 @@ public:
                    float hfov,
                    float vfov );
 
-    optix::Program getRayGenProgram() const;
+    optix::Program getRayGenProgram();
 
 private:
 
+    optix::float3   m_eye;
     optix::float3   m_U;
     optix::float3   m_V;
     optix::float3   m_W;

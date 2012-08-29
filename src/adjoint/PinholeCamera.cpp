@@ -28,28 +28,27 @@ PinholeCamera::PinholeCamera( Context* context,
                               float vfov )
     : Camera( context )
 {
+    m_eye = eye;
 
-  optix::float3 lookdir = optix::normalize( lookat-eye );
-  up  = optix::normalize( up );
-  m_U = optix::normalize( optix::cross( lookdir, up ) );
-  m_V = optix::normalize( optix::cross( m_U, lookdir ) );
+    optix::float3 lookdir = optix::normalize( lookat-eye );
+    up  = optix::normalize( up );
+    m_U = optix::normalize( optix::cross( lookdir, up ) );
+    m_V = optix::normalize( optix::cross( m_U, lookdir ) );
 
-  float ulen = tanf( DtoR( hfov*0.5f ) );
-  m_U = m_U * ulen;
+    float ulen = tanf( DtoR( hfov*0.5f ) );
+    m_U = m_U * ulen;
 
-  float vlen = tanf( DtoR( vfov*0.5f ) );
-  m_V = m_V * vlen;
-
-
-  //m_ray_gen_program = context->getOptixContext()->createProgramFromPTXFile( ptx
-
-  
+    float vlen = tanf( DtoR( vfov*0.5f ) );
+    m_V = m_V * vlen;
 
 
+
+    m_ray_gen_program = context->createProgram( "pinhole_camera.cu",
+                                                "pinhole_camera" ); 
 }
 
 
-optix::Program PinholeCamera::getRayGenProgram() const
+optix::Program PinholeCamera::getRayGenProgram()
 {
     return m_ray_gen_program;
 }

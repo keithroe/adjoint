@@ -6,6 +6,7 @@
 #include <cassert>
 
 #include <optixu/optixpp_namespace.h>
+#include <optixu/optixu_math_namespace.h>
 
 #include <Utility.hpp>
 
@@ -18,19 +19,20 @@ class Surface;
 class Sphere : public Contextualized
 {
 public:
-    Sphere( Context* context, float radius, float center[3], Surface* surface );
+    Sphere( Context* context, float radius, optix::float3 center, Surface* surface );
+    ~Sphere(); 
 
-    Surface*               getSurface();
-    float                  getRadius();
-    void                   getCenter( float center[3] );
+    Surface*               getSurface() const;
+    float                  getRadius() const;
+    optix::float3          getCenter() const;
 
-    static optix::Program  getIntersectionProgram();
-    static optix::Program  getBoundingBoxProgram();
+    optix::Geometry        getGeometry();
 
 private:
     float                  m_radius;
-    float                  m_center[3];
+    optix::float3          m_center;
     Surface*               m_surface;
+    optix::Geometry        m_geometry;
 
     static optix::Program  s_intersection_program;
     static optix::Program  s_bounding_box_program;

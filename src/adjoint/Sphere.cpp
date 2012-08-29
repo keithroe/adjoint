@@ -1,6 +1,7 @@
 
 
-#include <Sphere.hpp>
+#include <adjoint/Adjoint.hpp>
+#include <adjoint/Sphere.hpp>
 
 using namespace adjoint;
 
@@ -10,57 +11,54 @@ optix::Program  Sphere::s_bounding_box_program;
 
 
 
-Sphere::Sphere( Context* context, float radius, float center[3], Surface* surface )
+Sphere::Sphere( Context* context, float radius, optix::float3 center, Surface* surface )
     : Contextualized( context ),
       m_radius( radius ), 
+      m_center( center ),
       m_surface( surface )
 {
     assert( m_surface );
-    m_center[ 0 ] = center[ 0 ];
-    m_center[ 1 ] = center[ 1 ];
-    m_center[ 2 ] = center[ 2 ];
+}
+
+Sphere::~Sphere()
+{
+    // Allow the optix::Context to clean up optix resources
 }
 
 
-
-adjoint::Surface* Sphere::getSurface()
+adjoint::Surface* Sphere::getSurface() const
 {
     return m_surface;
 }
 
 
-
-float Sphere::getRadius()
+float Sphere::getRadius() const
 {
     return m_radius;
 }
 
 
-
-void Sphere::getCenter( float center[3] )
+optix::float3 Sphere::getCenter() const
 {
-    center[ 0 ] = m_center[ 0 ];
-    center[ 1 ] = m_center[ 1 ];
-    center[ 2 ] = m_center[ 2 ];
+    return m_center;
 }
 
 
-
-optix::Program Sphere::getIntersectionProgram()
+optix::Geometry Sphere::getGeometry()
 {
-    if( s_intersection_program )
-        return s_intersection_program;
+    if( m_geometry )
+        return m_geometry;
 
-    // TODO
-    return 0;
-}
+    if( !s_intersection_program )
+        s_intersection_program = m_context->createProgram( "sphere.cu",
+                                                           "sphere_intersect" );
 
+    if( !s_bounding_box_program )
+        s_bounding_box_program = m_context->createProgram( "sphere.cu",
+                                                           "sphere_bbox" );
 
-optix::Program Sphere::getBoundingBoxProgram()
-{
-    if( s_bounding_box_program )
-        return s_bounding_box_program;
-
-    // TODO
-    return 0;
+    m_geometry = m_context->createGeometry( 1u, s_intersection_program, s_bounding_box_program );
+    m_geometry[ "radius" ]->setFloat( m_radius );
+    m_geometry[ "center" ]->setFloat( m_center );
+    return m_geometry;
 }

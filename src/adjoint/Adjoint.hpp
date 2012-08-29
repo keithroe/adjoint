@@ -8,6 +8,7 @@
 
 
 
+#include <stdexcept>
 #include <optixu/optixpp_namespace.h>
 #include <Utility.hpp>
 
@@ -22,21 +23,43 @@ class Sphere;
 class Surface;
 
 
+
+class Exception : public std::runtime_error
+{
+public:
+    Exception();
+    Exception( const std::string& mssg );
+};
+
+
+
 class Context
 {
 public:
-    static Context* create();
+    static Context*    create();
+    static void        destroy( Context* context );
     
-    ~Context();
 
-    void setCamera( const Camera* camera );
+    void               setCamera( Camera* camera );
     
-    void setEnvironment( const Environment* environment );
+    void               setEnvironment( Environment* environment );
 
-    void addSphere( const Sphere* sphere );
+    void               addSphere( Sphere* sphere );
 
+    void               render( size_t width, size_t height, float* output );
+
+    
+    optix::Program     createProgram( const std::string& cuda_file,
+                                      const std::string& name );
+
+    optix::Geometry    createGeometry( size_t num_primitives, 
+                                       optix::Program intersect,
+                                       optix::Program bbox );
 private:
 
+    void addSphereToOptix( Sphere* sphere );
+
+    ~Context();
     Context();
     Context( const Context& );
     Context& operator=( const Context& );
@@ -50,14 +73,12 @@ private:
 
 
 
-
-
 class Camera : public Contextualized
 {
 public:
     Camera( Context* context );
     virtual ~Camera();
-    virtual optix::Program getRayGenProgram() const = 0;
+    virtual optix::Program getRayGenProgram() = 0;
 };
 
 
@@ -70,7 +91,7 @@ public:
 
     virtual bool           isEmitter() const = 0;
     virtual bool           isVolume() const = 0;
-    virtual optix::Program getClosestHit() const = 0;
+    virtual optix::Program getClosestHit() = 0;
 };
 
 
@@ -81,7 +102,7 @@ public:
     Environment( Context* context );
     virtual ~Environment();
 
-    virtual optix::Program getMissProgram() const = 0;
+    virtual optix::Program getMissProgram() = 0;
 };
 
 
