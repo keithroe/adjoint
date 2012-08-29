@@ -2,11 +2,12 @@
 
 #include <iostream>
 
-#include <Adjoint/Adjoint.hpp>
-#include <Adjoint/LambertianSurface.hpp>
-#include <Adjoint/PinholeCamera.hpp>
-#include <Adjoint/SolidEnvironment.hpp>
-#include <Adjoint/Sphere.hpp>
+#include <adjoint/Adjoint.hpp>
+#include <adjoint/LambertianSurface.hpp>
+#include <adjoint/PinholeCamera.hpp>
+#include <adjoint/SolidEnvironment.hpp>
+#include <adjoint/Sphere.hpp>
+#include <adjointu/ImageIO.hpp>
 
 
 int main( int argc, char** argv )
@@ -42,6 +43,7 @@ int main( int argc, char** argv )
     const unsigned height = 768u;
     float* raster = new float[ 3 * width * height ];
     context->render( width, height, raster );
+    adjointu::writeOpenEXR( "out.exr", width, height, raster );
 
     adjoint::Context::destroy( context );
 

@@ -26,5 +26,6 @@ include_directories(
 #configure_file( "${CMAKE_CURRENT_SOURCE_DIR}/clang_complete.in"  "${CMAKE_CURRENT_SOURCE_DIR}/.clang_complete" )
 
 add_subdirectory( adjoint )
+add_subdirectory( adjointu )
 add_subdirectory( standalone )
 
