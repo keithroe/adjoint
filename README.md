@@ -1,4 +1,4 @@
 adjoint
 =======
 
-adjoint photon tracer
+adjoint photon tracer.
